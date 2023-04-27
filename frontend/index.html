@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enemies</title>
+</head>
+<body>
+    <select id="enemies" onchange="updateInfo(this)"></select>  <!-- legördülő menü ... egy felületet csinálunk, amiben tudunk olvasgati a szörnyek között-->
+    <h1 id="name"></h1>
+    <p id="description"></p>
+    <script>
+        let enemies = document.getElementById("enemies")
+        let name = document.getElementById("name")
+        let description= document.getElementById("description")
+        fetch("http://127.0.0.1:8000/api/enemies/")
+        .then (res => res.json())
+        .then(data => {      
+
+            data.forEach (item => {
+                enemies.innerHTML += 
+                `<option value = "${item.id}"> ${item.name}</option>`
+            });
+        })
+
+
+        function updateInfo(select){
+            fetch("http://127.0.0.1:8000/api/enemy/" + select.value)
+            .then(res => res.json())
+            .then(enemy => {
+                name.innerText = enemy.name
+                description.innerText = enemy.description
+            })
+        } 
+        
+        // console.log(data)  ....  altgr + 7 --> ` 
+    </script>  
+    
+   
+
+</body>
+</html> 
